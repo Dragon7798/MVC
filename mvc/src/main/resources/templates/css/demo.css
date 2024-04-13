@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-image: url("background-image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #myForm {
+    max-width: 50%;
+    padding: 5%;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: left;
+    caption-side: bottom;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: xx-large;
+  }
+  
+  .dropzone {
+    position: relative;
+    border: 2px dashed #aaa;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .dropzone-message {
+    margin: 0;
+  }
+  
+  input[type="file"] {
+    display :contents;
+  }
+  
+  button[type="submit"] {
+    padding: 13px 30px;
+    font-weight: bold;
+    background-color: #ffffff;
+    color: #076b28;
+    border: 2px #0069d9;
+    cursor: pointer;
+  }
+  
+  button[type="submit"]:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  .btn-primary:hover {
+    color: #fff;
+    background-color: #0069d9;
+    border-color: #0062cc;
+  }
+
+  .header {
+    color: #fff-fff;
+    font-family: :'Times New Roman', Times, serif;
+    font-size: 450;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 50px;
+  }
+
+  
+
+  

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns:th="http://thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+>
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script>
+
+        (function ($) {
+
+	"use strict";
+	document.getElementById("uploadFile").addEventListener("click", function (event) {
+
+		event.preventDefault();
+
+		var radioButtons = document.getElementsByName("radioGroup");
+		var key;
+
+		radioButtons.forEach(element => {
+			if (element.checked) {
+				key = element
+			}
+		});
+
+		// var formData = new FormData();
+		// var fileInput = document.querySelector('input[type="file"]');
+		var fileInput = document.getElementById('file');
+
+		const file = fileInput.files[0];
+
+		if (file) {
+			convertFileToBase64(file);
+		}
+
+		// formData.append(key, fileInput.files[0], "file.java");
+
+
+	});
+
+}
+
+
+)(jQuery);
+
+function convertFileToBase64(file) {
+	const reader = new FileReader();
+	const fileName = file.name;
+
+	reader.onloadend = function () {
+		const base64File = reader.result;
+		makeAPICall(base64File, fileName);
+	};
+
+	reader.readAsDataURL(file);
+}
+
+
+function makeAPICall(base64File, fileName) {
+	const requestBody = {
+		key: base64File,
+		fileName: fileName
+	};
+
+	let options = {
+		method: 'POST',
+		headers: {
+			"Access-Control-Allow-Headers": "Origin",
+			"Content-Type": "application/json",
+			"Access-Control-Allow-Headers": "Authorization",
+			'Authorization': 'Basic YWRtaW46YWRtaW4=',
+			"Origin": "http://127.0.0.1:5500"
+		},
+
+		body: JSON.stringify(requestBody),
+		credentials: "include"
+	}
+
+	fetch("http://192.168.2.204:7501/shaft/api/servlet/esapi-servlet", options)
+		.then(response => response.json())
+		.then(data => {
+			window.alert("you will be redirected to the download page. Click ok.");
+			window.location.href = data.statusUrl;
+		})
+		.catch(error => {
+			console.error(error);
+		});
+}
+
+
+    </script>
+
+    <title>Responsive Form</title>
+<!--    <link th:href="@{D:/Spring Training/mvc/src/main/resources/templates/css/demo.css}" rel="stylesheet" type="text/css">-->
+    <style>
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("background-image.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            font-family: Arial, sans-serif;
+          }
+
+          .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+
+          #myForm {
+            max-width: 50%;
+            padding: 5%;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          }
+
+          .form-group {
+            margin-bottom: 20px;
+          }
+
+          label {
+            display: block;
+            font-weight: bold;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            text-align: left;
+            caption-side: bottom;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: xx-large;
+          }
+
+          .dropzone {
+            position: relative;
+            border: 2px dashed #aaa;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+          }
+
+          .dropzone-message {
+            margin: 0;
+          }
+
+          input[type="file"] {
+            display :contents;
+          }
+
+          button[type="submit"] {
+            padding: 13px 30px;
+            font-weight: bold;
+            background-color: #ffffff;
+            color: #076b28;
+            border: 2px #0069d9;
+            cursor: pointer;
+          }
+
+          button[type="submit"]:hover {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+          }
+
+          .btn-primary:hover {
+            color: #fff;
+            background-color: #0069d9;
+            border-color: #0062cc;
+          }
+
+          .header {
+            color: #fff-fff;
+            font-family: :'Times New Roman', Times, serif;
+            font-size: 450;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 50px;
+          }
+
+
+
+
+    </style>
+</head>
+
+<body style="background-image: url(images/bg.png);">
+<div class="header"><h1> Java Documentation </h1></div>
+<div class="container">
+    <form enctype="multipart/form-data" id="myForm" method="post" name="fileinfo">
+        <div class="form-group">
+            <label class="caption">Select an option:</label>
+            <div class="radio-group">
+                <label for="fileOption">
+                    <input checked id="fileOption" name="radioGroup" type="radio" value="file">
+                    File
+                </label>
+                <label for="projectOption">
+                    <input id="projectOption" name="radioGroup" type="radio" value="project">
+                    Project
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group btn-primary">
+            <label class="dropzone" for="file">
+                <p class="dropzone-message">Drop Your file here</p>
+                <input id="file" name="file" type="file">
+            </label>
+        </div>
+        <div class="form-group">
+            <button id="uploadFile" type="submit">Generate Document</button>
+        </div>
+        <div id="responseContainer"></div>
+    </form>
+</div>
+</body>
+
+</html>
